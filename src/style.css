@@ -1,0 +1,315 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --light-gold: #ffe1a5;
+  --strong-gold: #fbd58a;
+  --white: #fff;
+  --gray-bg: #292929;
+  --gray-btn: #6f6f6f;
+  --gray-text: #aaaaaa;
+  --brown-text: #554221;
+  --general-border: 10px;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.6rem;
+  letter-spacing: 0.5px;
+  color: var(--brown-text);
+}
+
+main {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-areas:
+    "a b"
+    "a b"
+    "a b"
+    "c c";
+
+  height: 70%;
+  width: 55%;
+
+  background-color: var(--gray-bg);
+
+  border-radius: calc(var(--general-border) * 2);
+}
+/* DAY SPECIFICS */
+
+.day-specifics {
+  grid-area: a;
+
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 6fr;
+  align-items: center;
+
+  column-gap: 2rem;
+
+  padding: 3rem;
+
+  color: white;
+}
+
+.temps {
+  display: flex;
+
+  height: 5.6rem;
+  width: 12.8rem;
+
+  overflow: hidden;
+
+  background-color: var(--gray-btn);
+
+  border-radius: var(--general-border);
+}
+
+.btn {
+  height: 100%;
+  width: 50%;
+
+  background-color: inherit;
+
+  border: none;
+
+  font-size: 2.6rem;
+  color: var(--white);
+
+  cursor: pointer;
+}
+
+.btn-focus {
+  z-index: 1;
+
+  font-weight: bold;
+  color: black;
+
+  background-color: #ffcc65;
+  border-radius: var(--general-border);
+
+  box-shadow: 0rem 0rem 2rem 0rem rgb(41, 41, 41, 0.5);
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-search {
+  height: 5.6rem;
+  width: 80%;
+
+  padding-left: 2rem;
+
+  border: none;
+  border-radius: var(--general-border);
+  background-color: rgb(255, 255, 255, 0.1);
+
+  font-size: 2.4rem;
+  font-family: inherit;
+  color: var(--white);
+
+  outline: none;
+}
+
+.btn-search {
+  position: absolute;
+  width: 6rem;
+  height: 100%;
+
+  right: 20%;
+  border: none;
+  border-radius: var(--general-border);
+  background-color: rgb(255, 255, 255, 0.2);
+
+  cursor: pointer;
+}
+
+.btn-search svg {
+  color: var(--white);
+  height: 3rem;
+  width: 3rem;
+}
+
+.btn-search:hover {
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-name: fadeinday;
+}
+
+.btn-search:hover svg {
+  color: var(--gray-bg);
+}
+
+.desc-container {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  font-size: 3rem;
+  font-weight: bold;
+
+  transform: translateY(-10%);
+
+  opacity: 0%;
+}
+
+.desc-container div {
+  display: flex;
+  gap: 2rem;
+}
+
+.desc-container div p {
+  font-weight: normal;
+}
+
+/* ------------------------------------- */
+
+/* DAY OVERVIEW */
+
+.day-overview {
+  grid-area: b;
+  padding: 4.8rem 6.4rem;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.6rem;
+
+  color: var(--white);
+}
+
+.day-overview span {
+  display: inline-block;
+}
+
+.day-overview h1 {
+  font-weight: lighter;
+  font-size: 14rem;
+  letter-spacing: -4px;
+}
+
+.day-overview h2 {
+  letter-spacing: 2px;
+  font-size: 4rem;
+}
+
+.day-overview p {
+  color: var(--gray-text);
+}
+
+.day-overview svg {
+  position: absolute;
+  height: 16rem;
+  width: 16rem;
+
+  bottom: 20%;
+  left: 15%;
+}
+
+/* DAYS PREVIEW */
+
+.days {
+  background-color: var(--light-gold);
+
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 1fr;
+  grid-area: c;
+
+  overflow: hidden;
+  border-bottom-left-radius: var(--general-border);
+  border-bottom-right-radius: var(--general-border);
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.6rem;
+
+  justify-content: center;
+  background-color: var(--light-gold);
+  cursor: pointer;
+}
+
+.day:hover {
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-name: fadeinday;
+}
+
+.day p:first-of-type {
+  font-weight: 600;
+  font-size: 2.6rem;
+}
+
+.day svg {
+  height: 5rem;
+  width: 5rem;
+  font-weight: lighter;
+}
+
+.day1 {
+  background-color: var(--strong-gold);
+  box-shadow: 0rem 0rem 1.3rem 0rem rgb(41, 41, 41, 0.3);
+  z-index: 0;
+
+  border-radius: var(--general-border);
+}
+
+.fade-content {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: fadeincont;
+}
+
+/* ------------------------------------- */
+
+/* ANIMATIONS */
+
+@keyframes fadeincont {
+  0% {
+    opacity: 0%;
+  }
+
+  100% {
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeinday {
+  0% {
+    background-color: inherit;
+  }
+  100% {
+    background-color: var(--strong-gold);
+    box-shadow: 0rem 0rem 1.3rem 0rem rgb(41, 41, 41, 0.3);
+    z-index: 0;
+
+    border-radius: var(--general-border);
+  }
+}
+
+/* ------------------------------------- */
