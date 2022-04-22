@@ -1,6 +1,7 @@
 import "../style.css";
 
 import { apiCalls } from "./dataHandler";
+import { UI } from "./viewHandler";
 
 // eslint-disable-next-line no-unused-vars
 const init = (() => {
@@ -12,7 +13,7 @@ const init = (() => {
       // Display day
       await apiCalls.getPlaceCoords(country);
       const getWeatherDaysArr = apiCalls.getArray();
-      console.log(getWeatherDaysArr);
+      UI.handleDisplay(getWeatherDaysArr);
     } catch (err) {
       return err;
     }
