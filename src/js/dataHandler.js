@@ -49,7 +49,6 @@ export const apiCalls = (() => {
       humidity: +`${day.humidity}`,
       icon: `${day.weather[0].icon}`,
     }));
-
     return _pushWeatherDays(weatherDays);
   }
 

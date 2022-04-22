@@ -169,6 +169,8 @@ main {
   font-weight: bold;
 
   transform: translateY(-10%);
+
+  opacity: 0%;
 }
 
 .desc-container div {

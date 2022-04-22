@@ -13,7 +13,7 @@ const init = (() => {
       // Display day
       await apiCalls.getPlaceCoords(country);
       const getWeatherDaysArr = apiCalls.getArray();
-      UI.handleDisplay(getWeatherDaysArr);
+      UI.handleDisplay(getWeatherDaysArr, country);
     } catch (err) {
       return err;
     }

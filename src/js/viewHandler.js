@@ -2,14 +2,16 @@
 /* eslint-disable no-underscore-dangle */
 export const UI = (() => {
   let array;
+  let place;
 
-  const handleDisplay = (weatherDaysArr) => {
+  const handleDisplay = (weatherDaysArr, country) => {
     array = weatherDaysArr;
-    _displayOverviews(weatherDaysArr);
+    place = country;
+    _displayPreviews(weatherDaysArr);
   };
 
-  function _displayOverviews() {
-    const dayOverviewCont = document.querySelector(".days");
+  function _displayPreviews() {
+    const dayPreviewCont = document.querySelector(".days");
 
     array.forEach((day) => {
       const div = document.createElement("div");
@@ -20,8 +22,40 @@ export const UI = (() => {
       img.src = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
 
       div.append(date, img);
-      dayOverviewCont.appendChild(div);
+      dayPreviewCont.appendChild(div);
+      div.addEventListener("click", () => _displayDaySpec(day));
     });
+  }
+
+  function _displayDaySpec(day) {
+    const descContainer = document.querySelector(".desc-container");
+    const dayOverview = document.querySelector(".day-overview");
+    descContainer.classList.add("fade-content");
+    dayOverview.classList.add("fade-content");
+    // Desc container
+    const cityDesc = document.querySelector("[data-city]");
+    const dayDesc = document.querySelector("[data-day]");
+    const weatherDesc = document.querySelector("[data-weather]");
+    const minDesc = document.querySelector("[data-min]");
+    const maxDesc = document.querySelector("[data-max]");
+    const humidityDesc = document.querySelector("[data-humidity]");
+
+    cityDesc.textContent = `${place.toUpperCase()}`;
+    dayDesc.textContent = `${day.date}`;
+    weatherDesc.textContent = `${
+      day.weatherDescription[0].toUpperCase() + day.weatherDescription.slice(1)
+    }`;
+    minDesc.textContent = `${day.min}°`;
+    maxDesc.textContent = `${day.max}°`;
+    humidityDesc.textContent = `${day.humidity}%`;
+
+    // Overview Container
+    const tempOver = document.querySelector("[data-temp-now]");
+    const cityOver = document.querySelector("[data-city-now]");
+    const dayOver = document.querySelector("[data-today]");
+    tempOver.textContent = `${day.percievedTemp}°`;
+    cityOver.textContent = `${place.toUpperCase()}`;
+    dayOver.textContent = `${day.date}`;
   }
 
   return {
