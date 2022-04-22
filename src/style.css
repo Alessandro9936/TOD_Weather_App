@@ -169,8 +169,6 @@ main {
   font-weight: bold;
 
   transform: translateY(-10%);
-
-  opacity: 0%;
 }
 
 .desc-container div {
@@ -180,6 +178,13 @@ main {
 
 .desc-container div p {
   font-weight: normal;
+}
+
+[data-day] {
+  font-weight: normal;
+  font-size: 2.4rem;
+  color: var(--gray-text);
+  transform: translateY(-55%);
 }
 
 /* ------------------------------------- */
