@@ -7,19 +7,20 @@ import { format, addDays } from "date-fns";
 export const apiCalls = (() => {
   const API_KEY_WEATHER = "ab730ae7d0667fef9151fd3329107d0d";
   const API_KEY_POSITION = "41b91df81b7b4a7c0e2add20e1b46987";
+
   let weatherDaysArr;
   let country;
   let city;
 
   const getArray = () => weatherDaysArr;
 
-  const getCoords = async (lat, lon) => {
+  const getCityCoords = async (lat, lon) => {
     try {
       const response = await fetch(
         `http://api.positionstack.com/v1/reverse?access_key=${API_KEY_POSITION}&query=${lat},${lon}&limit=1`
       );
       const data = await response.json();
-      const [{ administrative_area: country }] = data.data;
+      const [{ name: country }] = data.data;
       return country;
     } catch (err) {
       console.error(err);
@@ -33,7 +34,7 @@ export const apiCalls = (() => {
         `http://api.positionstack.com/v1/forward?access_key=${API_KEY_POSITION}&query=${place}&limit=1`
       );
       const data = await response.json();
-      [{ country, administrative_area: city }] = data.data;
+      [{ country, name: city }] = data.data;
       const [{ latitude, longitude }] = data.data;
       return _getWeatherByCords(latitude, longitude);
     } catch (err) {
@@ -79,7 +80,7 @@ export const apiCalls = (() => {
 
   return {
     getPlaceCoords,
-    getCoords,
+    getCityCoords,
     getArray,
   };
 })();

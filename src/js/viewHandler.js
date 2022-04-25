@@ -2,7 +2,63 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
-export const UI = (() => {
+export const viewLogic = (() => {
+  let array;
+
+  const handleDisplay = (weatherDaysArr) => {
+    array = weatherDaysArr;
+    _checkInputMetric();
+  };
+
+  function _checkInputMetric() {
+    const activeMetric = document.querySelector(".btn-focus");
+    // Metric is Celcius by default, then if active is on Celcius there's no need for a conversion.
+    activeMetric.dataset.metric === "Celcius"
+      ? viewUI.displayPreviews(array)
+      : _toFahrenheit();
+  }
+
+  const checkMetric = (target) => {
+    if (
+      target.dataset.metric === "Fahrenheit" &&
+      !target.classList.contains("btn-focus")
+    ) {
+      viewUI.toggleActive();
+      _toFahrenheit("Fahrenheit");
+    } else if (
+      target.dataset.metric === "Celcius" &&
+      !target.classList.contains("btn-focus")
+    ) {
+      viewUI.toggleActive();
+      _toCelcius("Celcius");
+    }
+  };
+
+  function _toFahrenheit() {
+    array.forEach((day) => {
+      day.min = Math.floor(day.min * (9 / 5) + 32);
+      day.max = Math.floor(day.max * (9 / 5) + 32);
+      day.percievedTemp = Math.floor(day.percievedTemp * (9 / 5) + 32);
+    });
+    viewUI.displayPreviews(array);
+  }
+
+  function _toCelcius() {
+    array.forEach((day) => {
+      day.min = Math.floor((day.min - 32) * (5 / 9));
+      day.max = Math.floor((day.max - 32) * (5 / 9));
+      day.percievedTemp = Math.floor((day.percievedTemp - 32) * (5 / 9));
+    });
+    viewUI.displayPreviews(array);
+  }
+
+  return {
+    handleDisplay,
+    checkMetric,
+  };
+})();
+
+export const viewUI = (() => {
   const descriptionContainer = document.querySelector(".desc-container");
   const dayOverview = document.querySelector(".day-overview");
   // Description container
@@ -17,31 +73,29 @@ export const UI = (() => {
   const cityOver = document.querySelector("[data-city-now]");
   const dayOver = document.querySelector("[data-today]");
 
-  let array;
-
-  const handleDisplay = (weatherDaysArr) => {
-    array = weatherDaysArr;
-    _checkInputMetric();
-    _displayPreviews(array);
-  };
-
-  function _displayPreviews(weatherArr) {
+  const displayPreviews = (array) => {
     const dayPreviewCont = document.querySelector(".days");
     dayPreviewCont.innerHTML = "";
 
-    weatherArr.forEach((day, index) => {
-      const div = document.createElement("div");
-      div.classList.add("day");
-      const date = document.createElement("p");
-      const img = document.createElement("img");
-      date.textContent = `${day.day}`;
-      img.src = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
+    array.forEach((day, index) => {
+      const preview = _createPreview(day);
+      dayPreviewCont.appendChild(preview);
 
-      div.append(date, img);
-      dayPreviewCont.appendChild(div);
-      div.addEventListener("click", () => _displayDaySpec(day));
+      preview.addEventListener("click", () => _displayDaySpec(day));
       if (index === 0) _displayDaySpec(day);
     });
+  };
+
+  function _createPreview(day) {
+    const div = document.createElement("div");
+    div.classList.add("day");
+    const date = document.createElement("p");
+    const img = document.createElement("img");
+    date.textContent = `${day.day}`;
+    img.src = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
+    div.append(date, img);
+
+    return div;
   }
 
   function _displayDaySpec(day) {
@@ -62,58 +116,13 @@ export const UI = (() => {
     dayOver.textContent = `${day.date}`;
   }
 
-  function _checkInputMetric() {
-    const activeMetric = document.querySelector(".btn-focus");
-    activeMetric.dataset.metric === "Fahrenheit" ? _toFahrenheit() : "";
-  }
-
-  const checkMetric = (target) => {
-    if (
-      target.dataset.metric === "Fahrenheit" &&
-      !target.classList.contains("btn-focus")
-    ) {
-      _toggleActive();
-      _toFahrenheit("Fahrenheit");
-      console.log(array);
-    } else if (
-      target.dataset.metric === "Celcius" &&
-      !target.classList.contains("btn-focus")
-    ) {
-      console.log("We have Fahrenheit, convert into Celcius");
-      _toggleActive();
-      _toCelcius("Celcius");
-    } else {
-      console.log(`You already have ${target.dataset.metric}`);
-    }
-  };
-
-  function _toggleActive() {
+  const toggleActive = () => {
     const btns = document.querySelectorAll(".btn");
     btns.forEach((btn) => btn.classList.toggle("btn-focus"));
-  }
-
-  function _toFahrenheit() {
-    array.forEach((day) => {
-      day.min = Math.floor(day.min * (9 / 5) + 32);
-      day.max = Math.floor(day.max * (9 / 5) + 32);
-      day.percievedTemp = Math.floor(day.percievedTemp * (9 / 5) + 32);
-    });
-    _displayPreviews(array);
-  }
-
-  function _toCelcius() {
-    array.forEach((day) => {
-      day.min = Math.floor((day.min - 32) * (5 / 9));
-      day.max = Math.floor((day.max - 32) * (5 / 9));
-      day.percievedTemp = Math.floor((day.percievedTemp - 32) * (5 / 9));
-    });
-    _displayPreviews(array);
-  }
+  };
 
   return {
-    handleDisplay,
-    checkMetric,
+    displayPreviews,
+    toggleActive,
   };
 })();
-
-export const a = 1;
