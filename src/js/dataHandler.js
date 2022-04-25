@@ -8,6 +8,8 @@ export const apiCalls = (() => {
   const API_KEY_WEATHER = "ab730ae7d0667fef9151fd3329107d0d";
   const API_KEY_POSITION = "41b91df81b7b4a7c0e2add20e1b46987";
   let weatherDaysArr;
+  let country;
+  let city;
 
   const getArray = () => weatherDaysArr;
 
@@ -31,7 +33,7 @@ export const apiCalls = (() => {
         `http://api.positionstack.com/v1/forward?access_key=${API_KEY_POSITION}&query=${place}&limit=1`
       );
       const data = await response.json();
-      console.log(data.data);
+      [{ country, administrative_area: city }] = data.data;
       const [{ latitude, longitude }] = data.data;
       return _getWeatherByCords(latitude, longitude);
     } catch (err) {
@@ -46,7 +48,6 @@ export const apiCalls = (() => {
         `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,current,alerts&appid=${API_KEY_WEATHER}`
       );
       const data = await response.json();
-      console.log(data);
       return _createWeatherDays(data.daily);
     } catch (err) {
       return err;
@@ -58,6 +59,8 @@ export const apiCalls = (() => {
     const formatDate = "EEEE dd LLL. yyyy";
 
     const weatherDays = daysWeather.map((day, index) => ({
+      town: city,
+      nation: country,
       day: `${format(addDays(new Date(), index), formatDay)}`,
       date: `${format(addDays(new Date(), index), formatDate)}`,
       weatherDescription: `${day.weather[0].description}`,

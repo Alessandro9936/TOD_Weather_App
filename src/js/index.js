@@ -6,27 +6,40 @@ import { UI } from "./viewHandler";
 
 // eslint-disable-next-line no-unused-vars
 const init = (() => {
-  const searchCountryBtn = document.querySelector(".btn-search");
-  navigator.geolocation.getCurrentPosition(getCurrentPosition);
+  const searchCityBtn = document.querySelector(".btn-search");
+  const metricBtn = document.querySelectorAll(".btn");
+  navigator.geolocation.getCurrentPosition(getCurrentLatLon);
 
-  async function getCurrentPosition(curPos) {
+  function getCurrentLatLon(curPos) {
     const { latitude, longitude } = curPos.coords;
-    const curCountry = await apiCalls.getCoords(latitude, longitude);
-    apiCords(curCountry);
+    getCurrentCity(latitude, longitude);
   }
 
-  searchCountryBtn.addEventListener("click", () => {
-    const country = document.querySelector(".input-search").value;
-    apiCords(country);
+  async function getCurrentCity(lat, lon) {
+    try {
+      const curCity = await apiCalls.getCoords(lat, lon);
+      apiCords(curCity);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  searchCityBtn.addEventListener("click", () => {
+    const city = document.querySelector(".input-search").value;
+    apiCords(city);
   });
 
-  async function apiCords(country) {
+  async function apiCords(city) {
     try {
-      await apiCalls.getPlaceCoords(country);
+      await apiCalls.getPlaceCoords(city);
       const getWeatherDaysArr = apiCalls.getArray();
-      UI.handleDisplay(getWeatherDaysArr, country);
+      return UI.handleDisplay(getWeatherDaysArr, city);
     } catch (err) {
       return err;
     }
   }
+
+  metricBtn.forEach((btn) =>
+    btn.addEventListener("click", (e) => UI.checkMetric(e.target))
+  );
 })();

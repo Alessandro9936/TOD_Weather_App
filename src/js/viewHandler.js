@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 export const UI = (() => {
@@ -16,20 +18,18 @@ export const UI = (() => {
   const dayOver = document.querySelector("[data-today]");
 
   let array;
-  let place;
 
-  const handleDisplay = (weatherDaysArr, country) => {
-    if (country.includes(place)) return;
+  const handleDisplay = (weatherDaysArr) => {
     array = weatherDaysArr;
-    place = country;
-    _displayPreviews(weatherDaysArr);
+    _checkInputMetric();
+    _displayPreviews(array);
   };
 
-  function _displayPreviews() {
+  function _displayPreviews(weatherArr) {
     const dayPreviewCont = document.querySelector(".days");
     dayPreviewCont.innerHTML = "";
 
-    array.forEach((day, index) => {
+    weatherArr.forEach((day, index) => {
       const div = document.createElement("div");
       div.classList.add("day");
       const date = document.createElement("p");
@@ -39,9 +39,8 @@ export const UI = (() => {
 
       div.append(date, img);
       dayPreviewCont.appendChild(div);
-
-      if (index === 0) _displayDaySpec(day);
       div.addEventListener("click", () => _displayDaySpec(day));
+      if (index === 0) _displayDaySpec(day);
     });
   }
 
@@ -49,7 +48,7 @@ export const UI = (() => {
     descriptionContainer.classList.add("fade-content");
     dayOverview.classList.add("fade-content");
 
-    cityDesc.textContent = `${place.toUpperCase()}`;
+    cityDesc.textContent = `${day.town.toUpperCase()}, ${day.nation.toUpperCase()}`;
     dayDesc.textContent = `${day.date}`;
     weatherDesc.textContent = `${
       day.weatherDescription[0].toUpperCase() + day.weatherDescription.slice(1)
@@ -59,12 +58,61 @@ export const UI = (() => {
     humidityDesc.textContent = `${day.humidity}%`;
 
     tempOver.textContent = `${day.percievedTemp}°`;
-    cityOver.textContent = `${place.toUpperCase()}`;
+    cityOver.textContent = `${day.town.toUpperCase()}`;
     dayOver.textContent = `${day.date}`;
+  }
+
+  function _checkInputMetric() {
+    const activeMetric = document.querySelector(".btn-focus");
+    activeMetric.dataset.metric === "Fahrenheit" ? _toFahrenheit() : "";
+  }
+
+  const checkMetric = (target) => {
+    if (
+      target.dataset.metric === "Fahrenheit" &&
+      !target.classList.contains("btn-focus")
+    ) {
+      _toggleActive();
+      _toFahrenheit("Fahrenheit");
+      console.log(array);
+    } else if (
+      target.dataset.metric === "Celcius" &&
+      !target.classList.contains("btn-focus")
+    ) {
+      console.log("We have Fahrenheit, convert into Celcius");
+      _toggleActive();
+      _toCelcius("Celcius");
+    } else {
+      console.log(`You already have ${target.dataset.metric}`);
+    }
+  };
+
+  function _toggleActive() {
+    const btns = document.querySelectorAll(".btn");
+    btns.forEach((btn) => btn.classList.toggle("btn-focus"));
+  }
+
+  function _toFahrenheit() {
+    array.forEach((day) => {
+      day.min = Math.floor(day.min * (9 / 5) + 32);
+      day.max = Math.floor(day.max * (9 / 5) + 32);
+      day.percievedTemp = Math.floor(day.percievedTemp * (9 / 5) + 32);
+    });
+    _displayPreviews(array);
+  }
+
+  function _toCelcius() {
+    array.forEach((day) => {
+      day.min = Math.floor((day.min - 32) * (5 / 9));
+      day.max = Math.floor((day.max - 32) * (5 / 9));
+      day.percievedTemp = Math.floor((day.percievedTemp - 32) * (5 / 9));
+    });
+    _displayPreviews(array);
   }
 
   return {
     handleDisplay,
+    checkMetric,
   };
 })();
 
