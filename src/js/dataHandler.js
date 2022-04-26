@@ -24,7 +24,6 @@ export const apiCalls = (() => {
       return country;
     } catch (err) {
       console.error(err);
-      return err;
     }
   };
 
@@ -39,7 +38,6 @@ export const apiCalls = (() => {
       return _getWeatherByCords(latitude, longitude);
     } catch (err) {
       console.error(err);
-      return err;
     }
   };
 
@@ -51,7 +49,7 @@ export const apiCalls = (() => {
       const data = await response.json();
       return _createWeatherDays(data.daily);
     } catch (err) {
-      return err;
+      console.error(err);
     }
   }
 

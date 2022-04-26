@@ -36,7 +36,7 @@ const init = (() => {
       const getWeatherDaysArr = apiCalls.getArray();
       return viewLogic.handleDisplay(getWeatherDaysArr, city);
     } catch (err) {
-      return err;
+      console.error(err);
     }
   }
 
