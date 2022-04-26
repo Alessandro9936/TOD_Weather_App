@@ -72,6 +72,7 @@ export const viewUI = (() => {
   const tempOver = document.querySelector("[data-temp-now]");
   const cityOver = document.querySelector("[data-city-now]");
   const dayOver = document.querySelector("[data-today]");
+  const spinner = document.querySelector(".spinner");
 
   const displayPreviews = (array) => {
     const dayPreviewCont = document.querySelector(".days");
@@ -99,6 +100,7 @@ export const viewUI = (() => {
   }
 
   function _displayDaySpec(day) {
+    spinner.classList.add("hidden");
     descriptionContainer.classList.add("fade-content");
     dayOverview.classList.add("fade-content");
 
