@@ -169,8 +169,6 @@ main {
   font-size: 2.4rem;
   font-weight: bold;
 
-  transform: translateY(-10%);
-
   opacity: 0%;
 }
 
@@ -206,6 +204,7 @@ main {
   gap: 1.6rem;
 
   color: var(--white);
+  transform: translateY(5%);
 }
 
 .day-overview span {
