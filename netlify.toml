@@ -1,6 +1,6 @@
 # example netlify.toml
 [build]
-  command = "run build"
+  command = "run weather"
   functions = "netlify/functions"
   publish = "dist"
 
