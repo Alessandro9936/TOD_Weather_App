@@ -6,7 +6,7 @@ import { format, addDays } from "date-fns";
 
 export const apiCalls = (() => {
   const API_KEY_WEATHER = "ab730ae7d0667fef9151fd3329107d0d";
-  const API_KEY_POSITION = "41b91df81b7b4a7c0e2add20e1b46987";
+  const API_KEY_POSITION = "ea5415dbcdba4198878f55403fefc4af";
 
   let weatherDaysArr;
   let country;
@@ -17,10 +17,10 @@ export const apiCalls = (() => {
   const getCityCoords = async (lat, lon) => {
     try {
       const response = await fetch(
-        `http://api.positionstack.com/v1/reverse?access_key=${API_KEY_POSITION}&query=${lat},${lon}&limit=1`
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${API_KEY_POSITION}`
       );
       const data = await response.json();
-      const [{ name: country }] = data.data;
+      const [{ city: country }] = data.results;
       return country;
     } catch (err) {
       console.error(err);
@@ -30,12 +30,12 @@ export const apiCalls = (() => {
   const getPlaceCoords = async (place) => {
     try {
       const response = await fetch(
-        `http://api.positionstack.com/v1/forward?access_key=${API_KEY_POSITION}&query=${place}&limit=1`
+        `https://api.geoapify.com/v1/geocode/search?text=${place}&limit1&format=json&apiKey=${API_KEY_POSITION}`
       );
       const data = await response.json();
-      [{ country, name: city }] = data.data;
-      const [{ latitude, longitude }] = data.data;
-      return _getWeatherByCords(latitude, longitude);
+      [{ country, city }] = data.results;
+      const [{ lat, lon }] = data.results;
+      return _getWeatherByCords(lat, lon);
     } catch (err) {
       console.error(err);
     }
