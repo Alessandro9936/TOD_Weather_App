@@ -1,46 +1,20 @@
-# Weather Application
+# TOD_Weather_App
+This is a project from the full stack curriculum 'The Odin Project' - Asynchronous Javascript and APIs
 
-This application is for anyone who wants to check the weekly weather of his current position (which is done automatically when the user log) or to find the weekly weather of almost any country around the globe.
+## Demo link
+Try weather app on this link --> https://alessandroweatherapp.netlify.app/
 
-Click the overview of the day that you want to see, all the specifics of the weather of that day will be displayed. You can also change the temperature metric, both Celcius and Fahrenheit are available.
+## About the app
+Like other weather apps, this one allows you to check the weekly weather and basic metrics of each day of your current location (displayed automatically when the page loads) or check the weather of almost any country around the world. If you prefer, you can also change the metric unit of the temperature between Celcius or Fahrenheit.
 
-## Built With
+## Screenshots
+![Nuova scheda - Google Chrome 2022-08-02 13-15-46](https://user-images.githubusercontent.com/64644550/182363514-c8dcbdc7-3960-4963-bee9-6a429f1e400d.gif)
 
-- HTML
-- CSS
-- Javascript
+## Technologies
+**HTML** - **CSS** - **JAVASCRIPT** - **APIs**
 
-## Installation
-
-1. Get a free API key for geolocation/reverse geolocation at: https://myprojects.geoapify.com/login
-2. Get a free API key for weather at: https://home.openweathermap.org/users/sign_in
-3. Clone the repo
-
-```bash
-  git clone https://github.com/Alessandro9936/Weather_App.git
-```
-
-4. Install NPM packages
-
-```bash
-  npm install
-```
-
-5. Enter your API keys in `dataHandler.js`
-
-```bash
-  const API_KEY_WEATHER = "Weather key";
-  const API_KEY_POSITION = "Position key";
-```
-
-## Demo
-
-Live Weather Application demo here: https://alessandroweatherapp.netlify.app/
-
-## Lessons Learned
-
+## What I Learned
 - Working with asynchronous Javascript
-- Handling data from multiple APIs
+- Requesting and handling data from multiple APIs
 - Read and destructure data from APIs
-- DOM manipulation with dynamically created elements
-- First approach to webpack and eslint
+- DOM manipulation of dynamically created elements
